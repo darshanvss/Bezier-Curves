@@ -68,9 +68,11 @@ void mouse(int button, int state, int x, int y)
     {
         points.push_back(make_pair(mouse_x, mouse_y));
     }
-    // if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
-    // {
-    // }
+    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
+    {
+        if (!points.empty())
+            points.pop_back();
+    }
 }
 
 // mouse motion callback
