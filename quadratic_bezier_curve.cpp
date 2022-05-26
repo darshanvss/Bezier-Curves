@@ -53,7 +53,7 @@ void display()
     glLoadIdentity();
 
     glColor3f(1, 1, 1);
-    plot(mouse_x, mouse_y);
+    // plot(mouse_x, mouse_y);
     drawPoints(points);
 
     glutSwapBuffers();
@@ -66,7 +66,8 @@ void mouse(int button, int state, int x, int y)
 {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
-        points.push_back(make_pair(mouse_x, mouse_y));
+        if (points.size() < 3)
+            points.push_back(make_pair(mouse_x, mouse_y));
     }
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
     {
@@ -83,6 +84,12 @@ void motion(int x, int y)
     glutPostRedisplay();
 }
 
+void delay(float secs)
+{
+    float end = clock() / CLOCKS_PER_SEC + secs;
+    while ((clock() / CLOCKS_PER_SEC) < end)
+        ;
+}
 void timer(int)
 {
     glutTimerFunc(fps, timer, 0);
@@ -103,7 +110,7 @@ void myinit(void)
     glMatrixMode(GL_MODELVIEW);
     glutMouseFunc(mouse);
     glutPassiveMotionFunc(motion);
-    glutSetCursor(GLUT_CURSOR_NONE);
+    glutSetCursor(GLUT_CURSOR_CROSSHAIR);
     glutReshapeFunc(changeViewPort);
 }
 
