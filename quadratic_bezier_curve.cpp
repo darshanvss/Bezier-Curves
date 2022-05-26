@@ -45,6 +45,13 @@ void drawPoints(vector<pair<float, float>> p)
     {
         plot(p[i].first, p[i].second);
     }
+
+    glBegin(GL_LINES);
+    for (int i = 0; i < size; i++)
+    {
+        glVertex2f(p[i].first, p[i].second);
+    }
+    glEnd();
 }
 
 void display()
@@ -84,12 +91,6 @@ void motion(int x, int y)
     glutPostRedisplay();
 }
 
-void delay(float secs)
-{
-    float end = clock() / CLOCKS_PER_SEC + secs;
-    while ((clock() / CLOCKS_PER_SEC) < end)
-        ;
-}
 void timer(int)
 {
     glutTimerFunc(fps, timer, 0);
