@@ -116,6 +116,7 @@ void mouse(int button, int state, int x, int y)
     {
         if (!points.empty())
             points.pop_back();
+        arc.clear();
     }
 }
 
