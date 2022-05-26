@@ -8,10 +8,11 @@ using namespace std;
 
 // Global variables_______________
 
-int fps = 1000;
+int fps = 30;
 int randomizeAllValues = -1;
 int mouse_x = 0;
 int mouse_y = 0;
+float t = 0;
 
 vector<pair<float, float>> points;
 
@@ -39,19 +40,42 @@ void plot(float x, float y)
 void drawPoints(vector<pair<float, float>> p)
 {
     int size = p.size();
+    glColor3f(1, 1, 1);
     glPointSize(5);
     // points
     for (int i = 0; i < size; i++)
     {
         plot(p[i].first, p[i].second);
     }
-
+    glColor3f(.5, .5, .5);
     glBegin(GL_LINES);
-    for (int i = 0; i < size; i++)
+    for (int i = 1; i < size; i++)
     {
+        glVertex2f(p[i - 1].first, p[i - 1].second);
         glVertex2f(p[i].first, p[i].second);
     }
     glEnd();
+}
+
+void quadBC(vector<pair<float, float>> p)
+{
+    if (points.size() == 3)
+    {
+        float ax = (1 - t) * p[0].first + t * p[1].first;
+        float ay = (1 - t) * p[0].second + t * p[1].second;
+
+        float bx = (1 - t) * p[1].first + t * p[2].first;
+        float by = (1 - t) * p[1].second + t * p[2].second;
+
+        glColor3f(1, 0, 0);
+        plot(ax, ay);
+        plot(bx, by);
+
+        float cx = (1 - t) * ax + t * bx;
+        float cy = (1 - t) * ay + t * by;
+        glColor3f(1, 1, 1);
+        plot(cx, cy);
+    }
 }
 
 void display()
@@ -62,6 +86,7 @@ void display()
     glColor3f(1, 1, 1);
     // plot(mouse_x, mouse_y);
     drawPoints(points);
+    quadBC(points);
 
     glutSwapBuffers();
 }
@@ -95,6 +120,10 @@ void timer(int)
 {
     glutTimerFunc(fps, timer, 0);
     glutKeyboardFunc(keyboard);
+
+    t += 0.01;
+    if (t > 1)
+        t = 0;
 
     if (randomizeAllValues == 1)
     {
