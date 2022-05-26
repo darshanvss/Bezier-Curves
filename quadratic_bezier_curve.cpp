@@ -10,6 +10,8 @@ using namespace std;
 
 int fps = 1000;
 int randomizeAllValues = -1;
+int mouse_x = 0;
+int mouse_y = 0;
 
 void changeViewPort(int w, int h)
 {
@@ -49,6 +51,25 @@ void display()
 
 void keyboard(unsigned char key, int x, int y);
 
+// mouse callback
+void mouse(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+    }
+    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
+    {
+    }
+}
+
+// mouse motion callback
+void motion(int x, int y)
+{
+    mouse_x = x;
+    mouse_y = 1000 - y;
+    glutPostRedisplay();
+}
+
 void timer(int)
 {
     glutTimerFunc(fps, timer, 0);
@@ -69,8 +90,8 @@ int main(int argc, char **argv)
     glutInitWindowPosition(1000, 100);
     glutInitWindowSize(800, 800);
 
-    printf("print in terminal\n");
-    glutCreateWindow("window name");
+    // printf("print in terminal\n");
+    glutCreateWindow("Quadratic Bezier Curve Animation");
     myinit();
     glutDisplayFunc(display);
     glutReshapeFunc(changeViewPort);
