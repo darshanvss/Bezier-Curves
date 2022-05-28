@@ -87,6 +87,23 @@ void quadBC(vector<pair<float, float>> p)
     }
 }
 
+void qbcTrace(vector<pair<float, float>> p)
+{
+    for (int i = 0; i < 1; i += 0.01)
+    {
+        float ax = (1 - i) * p[0].first + i * p[1].first;
+        float ay = (1 - i) * p[0].second + i * p[1].second;
+
+        float bx = (1 - i) * p[1].first + i * p[2].first;
+        float by = (1 - i) * p[1].second + i * p[2].second;
+
+        float cx = (1 - i) * ax + i * bx;
+        float cy = (1 - i) * ay + i * by;
+        glColor3f(.5, .5, .5);
+        plot(cx, cy);
+    }
+}
+
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -109,8 +126,12 @@ void mouse(int button, int state, int x, int y)
 {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
+
         if (points.size() < 3)
+        {
+            t = 0;
             points.push_back(make_pair(mouse_x, mouse_y));
+        }
     }
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
     {
